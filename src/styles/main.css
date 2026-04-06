@@ -18,6 +18,9 @@
     --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
     --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
     --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+    --priority-high: #FF6B6B;
+    --priority-medium: #4A90E2;
+    --priority-low: #95DE64;
 }
 
 body {
@@ -54,8 +57,26 @@ body {
 
 .input-section {
     display: flex;
-    gap: 12px;
+    gap: 10px;
     margin-bottom: 24px;
+    align-items: center;
+}
+
+.priority-select {
+    padding: 12px 14px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: white;
+    outline: none;
+    flex-shrink: 0;
+}
+
+.priority-select:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
 }
 
 .todo-input {
@@ -140,6 +161,22 @@ body {
     border-radius: 12px;
     transition: all 0.3s ease;
     gap: 12px;
+    border-left: 4px solid var(--border-color);
+}
+
+.todo-item.priority-high {
+    border-left-color: var(--priority-high);
+    background: rgba(255, 107, 107, 0.05);
+}
+
+.todo-item.priority-medium {
+    border-left-color: var(--priority-medium);
+    background: rgba(74, 144, 226, 0.05);
+}
+
+.todo-item.priority-low {
+    border-left-color: var(--priority-low);
+    background: rgba(149, 222, 100, 0.05);
 }
 
 .todo-item:hover {
@@ -168,18 +205,37 @@ body {
     color: var(--text-secondary);
 }
 
-.delete-btn {
-    padding: 8px 16px;
-    background: var(--danger-red);
-    color: white;
+.todo-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.delete-btn, .edit-btn {
+    padding: 8px 12px;
     border: none;
     border-radius: 8px;
     font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
-    opacity: 0.9;
     flex-shrink: 0;
+}
+
+.edit-btn {
+    background: #B3E5FC;
+    color: #0277BD;
+}
+
+.edit-btn:hover {
+    background: #81D4FA;
+    transform: translateY(-1px);
+}
+
+.delete-btn {
+    background: var(--danger-red);
+    color: white;
+    opacity: 0.9;
 }
 
 .delete-btn:hover {
@@ -188,13 +244,13 @@ body {
     box-shadow: var(--shadow-sm);
 }
 
-.delete-btn:active {
+.delete-btn:active, .edit-btn:active {
     transform: translateY(0);
 }
 
 .empty-state {
     text-align: center;
-    padding: 48px 20px;
+    padding: 60px 30px;
     color: var(--text-secondary);
     font-size: 15px;
     display: none;
@@ -204,22 +260,54 @@ body {
     display: block;
 }
 
-.clear-completed-section {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
+.empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    animation: bounce 2s infinite;
 }
 
-.clear-completed-btn {
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+.empty-state p {
+    margin: 8px 0;
+}
+
+.empty-state p:first-child {
+    font-size: 18px;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.empty-subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.action-section {
+    margin-top: 20px;
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.clear-completed-btn, .clear-all-btn {
     padding: 12px 24px;
-    background: #FFE5B4;
-    color: #D97706;
-    border: 2px solid #FECACA;
+    border: none;
     border-radius: 12px;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+}
+
+.clear-completed-btn {
+    background: #FFE5B4;
+    color: #D97706;
+    border: 2px solid #FECACA;
 }
 
 .clear-completed-btn:hover {
@@ -228,8 +316,123 @@ body {
     box-shadow: var(--shadow-sm);
 }
 
-.clear-completed-btn:active {
+.clear-all-btn {
+    background: #FFCCCC;
+    color: #B71C1C;
+    border: 2px solid #FF9999;
+}
+
+.clear-all-btn:hover {
+    background: #FF9999;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.clear-completed-btn:active, .clear-all-btn:active {
     transform: translateY(0);
+}
+
+.modal, .confirm-dialog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-content, .confirm-content {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: var(--shadow-lg);
+}
+
+.modal-content h2 {
+    font-size: 20px;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+}
+
+.modal-input, .modal-select {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    outline: none;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.modal-input:focus, .modal-select:focus {
+    border-color: var(--primary-blue);
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.modal-buttons, .confirm-buttons {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+}
+
+.modal-btn, .confirm-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.modal-btn-cancel, .confirm-btn.cancel {
+    background: #E5E7EB;
+    color: var(--text-primary);
+}
+
+.modal-btn-cancel:hover, .confirm-btn.cancel:hover {
+    background: #D1D5DB;
+    transform: translateY(-1px);
+}
+
+.modal-btn-save {
+    background: var(--primary-blue);
+    color: white;
+}
+
+.modal-btn-save:hover {
+    background: var(--primary-blue-dark);
+    transform: translateY(-1px);
+}
+
+.confirm-btn.danger {
+    background: var(--danger-red);
+    color: white;
+}
+
+.confirm-btn.danger:hover {
+    background: #D32F2F;
+    transform: translateY(-1px);
+}
+
+.modal-btn:active, .confirm-btn:active {
+    transform: translateY(0);
+}
+
+.confirm-content p {
+    color: var(--text-primary);
+    margin-bottom: 24px;
+    font-size: 15px;
+    line-height: 1.5;
 }
 
 @media (max-width: 640px) {

@@ -19,6 +19,11 @@
                     placeholder="今天要做什么？"
                     autocomplete="off"
                 >
+                <select id="prioritySelect" class="priority-select">
+                    <option value="medium">普通</option>
+                    <option value="high">高</option>
+                    <option value="low">低</option>
+                </select>
                 <button id="addBtn" class="add-btn">➕ 添加任务</button>
             </div>
 
@@ -35,13 +40,48 @@
 
             <ul id="todoList" class="todo-list"></ul>
 
-            <div id="clearCompletedSection" class="clear-completed-section" style="display: none;">
+            <div id="clearCompletedSection" class="action-section" style="display: none;">
                 <button id="clearCompletedBtn" class="clear-completed-btn">清空已完成</button>
+                <button id="clearAllBtn" class="clear-all-btn">全部清空</button>
             </div>
 
             <div id="emptyState" class="empty-state">
-                <p>还没有任务，开始添加吧！</p>
+                <div class="empty-icon">✨</div>
+                <p>还没有任务</p>
+                <p class="empty-subtitle">开始添加你的第一个任务吧！</p>
             </div>
+
+            <div id="editModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <h2>编辑任务</h2>
+                    <input
+                        type="text"
+                        id="editInput"
+                        class="modal-input"
+                        placeholder="任务内容"
+                    >
+                    <select id="editPrioritySelect" class="modal-select">
+                        <option value="medium">普通</option>
+                        <option value="high">高</option>
+                        <option value="low">低</option>
+                    </select>
+                    <div class="modal-buttons">
+                        <button id="cancelEditBtn" class="modal-btn modal-btn-cancel">取消</button>
+                        <button id="saveEditBtn" class="modal-btn modal-btn-save">保存</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="confirmDialog" class="confirm-dialog" style="display: none;">
+                <div class="confirm-content">
+                    <p>确定要清空所有任务吗？此操作无法撤销。</p>
+                    <div class="confirm-buttons">
+                        <button id="cancelConfirmBtn" class="confirm-btn cancel">取消</button>
+                        <button id="confirmClearBtn" class="confirm-btn danger">确认清空</button>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 
