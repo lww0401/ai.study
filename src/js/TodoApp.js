@@ -12,6 +12,8 @@ export class TodoApp {
         this.pendingCount = document.getElementById('pendingCount');
         this.completedCount = document.getElementById('completedCount');
         this.emptyState = document.getElementById('emptyState');
+        this.clearCompletedSection = document.getElementById('clearCompletedSection');
+        this.clearCompletedBtn = document.getElementById('clearCompletedBtn');
 
         this.init();
     }
@@ -23,6 +25,7 @@ export class TodoApp {
                 this.addTodo();
             }
         });
+        this.clearCompletedBtn.addEventListener('click', () => this.clearCompleted());
 
         this.render();
     }
@@ -58,6 +61,12 @@ export class TodoApp {
         this.render();
     }
 
+    clearCompleted() {
+        this.todos = this.todos.filter(t => !t.completed);
+        this.storage.saveTodos(this.todos);
+        this.render();
+    }
+
     updateStats() {
         const pending = this.todos.filter(t => !t.completed).length;
         const completed = this.todos.filter(t => t.completed).length;
@@ -71,6 +80,7 @@ export class TodoApp {
 
         if (this.todos.length === 0) {
             this.emptyState.classList.add('show');
+            this.clearCompletedSection.style.display = 'none';
         } else {
             this.emptyState.classList.remove('show');
 
@@ -82,6 +92,9 @@ export class TodoApp {
                 );
                 this.todoList.appendChild(todoItem.render());
             });
+
+            const hasCompleted = this.todos.some(t => t.completed);
+            this.clearCompletedSection.style.display = hasCompleted ? 'flex' : 'none';
         }
 
         this.updateStats();

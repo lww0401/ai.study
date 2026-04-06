@@ -22,7 +22,7 @@
 
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #A8D8FF 0%, #D8B8F0 100%);
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -202,6 +202,34 @@ body {
 
 .empty-state.show {
     display: block;
+}
+
+.clear-completed-section {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.clear-completed-btn {
+    padding: 12px 24px;
+    background: #FFE5B4;
+    color: #D97706;
+    border: 2px solid #FECACA;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.clear-completed-btn:hover {
+    background: #FFD699;
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-sm);
+}
+
+.clear-completed-btn:active {
+    transform: translateY(0);
 }
 
 @media (max-width: 640px) {
